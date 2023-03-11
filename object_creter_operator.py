@@ -22,6 +22,7 @@ class PropertyGroup(bpy.types.PropertyGroup):
     show_texture_space: bpy.props.BoolProperty(default=False)
     show_in_wire: bpy.props.BoolProperty(default=False)
     create_mode: bpy.props.BoolProperty(default=False)
+    set_default_location: bpy.props.BoolProperty(default=False)
 
 #here is our operator 
 class CreaterOperator(bpy.types.Operator):
@@ -46,9 +47,9 @@ class CreaterOperator(bpy.types.Operator):
             context.object.show_texture_space = False
         
         if tool.show_axis == True:
-            context.object.show_texture_space = True
+            context.object.show_axis = True
         else:
-            context.object.show_texture_space = False
+            context.object.show_axis = False
         
         # set the location and roration for active object
         context.object.location[0] = tool.location[0]
@@ -73,27 +74,28 @@ class CreaterOperator(bpy.types.Operator):
                     y_core = indexes // tool.count_Y
                     
                     if tool.types_of_objects == "ico_Sphere":
-                        bpy.ops.mesh.primitive_ico_sphere_add(rotation=tool.rotation, location=(x_core, y_core, idx), rotation=(tool.rotation[0], tool.rotation[1], tool.rotation[2]))
+                        bpy.ops.mesh.primitive_ico_sphere_add(rotation=tool.rotation, location=(x_core, y_core, idx), scale=(tool.scale[0], tool.scale[1], tool.scale[2]))
                         
                     elif tool.types_of_objects == "Torus":
-                        bpy.ops.mesh.primitive_torus_add(rotation=tool.rotation, location=(x_core, y_core, idx), rotation=(tool.rotation[0], tool.rotation[1], tool.rotation[2]))
+                        bpy.ops.mesh.primitive_torus_add(rotation=tool.rotation, location=(x_core, y_core, idx), scale=(tool.scale[0], tool.scale[1], tool.scale[2]))
                         
                     elif tool.types_of_objects == "Cylinder":
-                        bpy.ops.mesh.primitive_cylinder_add(rotation=tool.rotation, location=(x_core, y_core, idx), rotation=(tool.rotation[0], tool.rotation[1], tool.rotation[2]))
+                        bpy.ops.mesh.primitive_cylinder_add(rotation=tool.rotation, location=(x_core, y_core, idx), scale=(tool.scale[0], tool.scale[1], tool.scale[2]))
                         
-                    elif tool.types_of_obects == "Cone":
-                        bpy.ops.mesh.primitive_cone_add(roration=tool.rotation, location=(x_core, y_core, idx), rotation=(tool.rotation[0], tool.rotation[1], tool.rotation[2]))
+                    elif tool.types_of_objects == "Cone":
+                        bpy.ops.mesh.primitive_cone_add(roration=tool.rotation, location=(x_core, y_core, idx), scale=(tool.scale[0], tool.scale[1], tool.scale[2]))
                     
                     elif tool.types_of_objects == "uv_Sphere":
-                        bpy.ops.mesh.primitive_uv_sphere_add(rotation=tool.rotation, location=(x_core, y_core, idx), rotation=(tool.rotation[0], tool.rotation[1], tool.rotation[2]))
+                        bpy.ops.mesh.primitive_uv_sphere_add(rotation=tool.rotation, location=(x_core, y_core, idx), scale=(tool.scale[0], tool.scale[1], tool.scale[2]))
                     
                     elif tool.types_of_objects == "Grid":
-                        bpy.ops.mesh.primitive_grid_add(rotation=tool.rotation, location=(x_core, y_core, idx), rotation=(tool.rotation[0], tool.rotation[1], tool.rotation[2]))
+                        bpy.ops.mesh.primitive_grid_add(rotation=tool.rotation, location=(x_core, y_core, idx), scale=(tool.scale[0], tool.scale[1], tool.scale[2]))
                     
                     elif tool.types_of_objects == "Mokey":
-                        bpy.ops.mesh.primitive_monkey_add(rotation=tool.rotation, location=(x_core, y_core, idx), rotation=(tool.rotation[0], tool.rotation[1], tool.rotation[2]))            
-                
-            
+                        bpy.ops.mesh.primitive_monkey_add(rotation=tool.rotation, location=(x_core, y_core, idx), scale=(tool.scale[0], tool.scale[1], tool.scale[2]))            
+                    
+                    if tool.set_default_location == True:
+                        context.object.location = (0.0, 0.0, 0.0)        
         return {"FINISHED"}
     
 class Panel_For_Operator(bpy.types.Panel):
@@ -119,6 +121,7 @@ class Panel_For_Operator(bpy.types.Panel):
         layout.prop(tool, "count_Z")
         layout.prop(tool, "show_in_wire")
         layout.prop(tool, "create_mode")
+        layout.prop(tool, "set_default_location")
         
         row = layout.row()
         row.operator("mesh.new_operator")
