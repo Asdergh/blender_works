@@ -1,5 +1,5 @@
 import bpy
-
+ #here we create the bars with sttings for our operator
 class PropertyGroup(bpy.types.PropertyGroup):
     
     count_X: bpy.props.IntProperty(default=2, min=1, max=10)
@@ -23,11 +23,13 @@ class PropertyGroup(bpy.types.PropertyGroup):
     show_in_wire: bpy.props.BoolProperty(default=False)
     create_mode: bpy.props.BoolProperty(default=False)
 
+#here is our operator 
 class CreaterOperator(bpy.types.Operator):
-    
+     #requiwerd params for bpy Operator Type
     bl_label = "matrix_object_creater"
     bl_idname = "mesh.new_operator"
     
+    #required function for bpy Operator Type
     def execute(self, context):
         
         scene = context.scene
@@ -48,7 +50,7 @@ class CreaterOperator(bpy.types.Operator):
         else:
             context.object.show_texture_space = False
         
-        
+        # set the location and roration for active object
         context.object.location[0] = tool.location[0]
         context.object.location[1] = tool.location[1]
         context.object.location[2] = tool.location[2]
@@ -71,25 +73,25 @@ class CreaterOperator(bpy.types.Operator):
                     y_core = indexes // tool.count_Y
                     
                     if tool.types_of_objects == "ico_Sphere":
-                        bpy.ops.mesh.primitive_ico_sphere_add(rotation=tool.rotation, location=(x_core, y_core, idx))
+                        bpy.ops.mesh.primitive_ico_sphere_add(rotation=tool.rotation, location=(x_core, y_core, idx), rotation=(tool.rotation[0], tool.rotation[1], tool.rotation[2]))
                         
                     elif tool.types_of_objects == "Torus":
-                        bpy.ops.mesh.primitive_torus_add(rotation=tool.rotation, location=(x_core, y_core, idx))
+                        bpy.ops.mesh.primitive_torus_add(rotation=tool.rotation, location=(x_core, y_core, idx), rotation=(tool.rotation[0], tool.rotation[1], tool.rotation[2]))
                         
                     elif tool.types_of_objects == "Cylinder":
-                        bpy.ops.mesh.primitive_cylinder_add(rotation=tool.rotation, location=(x_core, y_core, idx))
+                        bpy.ops.mesh.primitive_cylinder_add(rotation=tool.rotation, location=(x_core, y_core, idx), rotation=(tool.rotation[0], tool.rotation[1], tool.rotation[2]))
                         
                     elif tool.types_of_obects == "Cone":
-                        bpy.ops.mesh.primitive_cone_add(roration=tool.rotation, location=(x_core, y_core, idx))
+                        bpy.ops.mesh.primitive_cone_add(roration=tool.rotation, location=(x_core, y_core, idx), rotation=(tool.rotation[0], tool.rotation[1], tool.rotation[2]))
                     
                     elif tool.types_of_objects == "uv_Sphere":
-                        bpy.ops.mesh.primitive_uv_sphere_add(rotation=tool.rotation, location=(x_core, y_core, idx))
+                        bpy.ops.mesh.primitive_uv_sphere_add(rotation=tool.rotation, location=(x_core, y_core, idx), rotation=(tool.rotation[0], tool.rotation[1], tool.rotation[2]))
                     
                     elif tool.types_of_objects == "Grid":
-                        bpy.ops.mesh.primitive_grid_add(rotation=tool.rotation, location=(x_core, y_core, idx))
+                        bpy.ops.mesh.primitive_grid_add(rotation=tool.rotation, location=(x_core, y_core, idx), rotation=(tool.rotation[0], tool.rotation[1], tool.rotation[2]))
                     
                     elif tool.types_of_objects == "Mokey":
-                        bpy.ops.mesh.primitive_monkey_add(rotation=tool.rotation, location=(x_core, y_core, idx))            
+                        bpy.ops.mesh.primitive_monkey_add(rotation=tool.rotation, location=(x_core, y_core, idx), rotation=(tool.rotation[0], tool.rotation[1], tool.rotation[2]))            
                 
             
         return {"FINISHED"}
